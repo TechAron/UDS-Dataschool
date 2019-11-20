@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(quanteda)
+library(dplyr)
+library(magrittr)
+library(tidyr)
+library(stringr)
+library(lda)
+library(stopwords)
+library(topicmodels)
+
+```
+```{r}
+newspapers2 <- corpus(newspapers)
+
+datanews <- docvars(newspapers)
+
+```
+
+```{r}
+removegrep <- c("sport", "onderwijs", "advertentie", "asset", "auto", "beurs", "black", "boeken", "cultuur", "gids", "dichters", "ditchters", "eten", "film", "koop", "kerk", "koninklijk", "kunst", "ligeti", "magazine", "media", "mode", "muziek", "poezie", "prive", "puzzel", "radiotv", "showbuzz", "volgende") 
+#industry outlook blijft erin omdat het specifiek over groene technologie gaat. Magazine eruit omdat die niet vaak genoeg uitkomen in onze optiek. 
+```
+
+
+```{r}
+newspapers5 <- corpus_subset(newspapers, !grepl(paste(removegrep, collapse = "|"), Section, ignore.case = TRUE))
+
+```
+```{r}
+save(newspapers5, file = "newspapersnew.RDATA")
+```
+
+```{r}
+CompVec <- c("Theresa May", "Den Haag", "Europese Unie") 
+RemVec <- c("zag", "liet", "zat", "vertelt", "kun") 
+
+TokNews <- tokens(newspapers5, remove_numbers = TRUE, remove_punct = TRUE, remove_sep = TRUE, remove_url = TRUE) %>% 
+  tokens_compound(CompVec) %>%
+  tokens_tolower() %>% 
+  tokens_remove(stopwords::stopwords(language = "nl")) %>%
+  tokens_remove(stopwords::stopwords(language = "en")) %>% #blijkbaar staat er nog al eens 'the' in de documenten, die moet er ook uit 
+  tokens_remove(RemVec) 
+```
+
+```{r}
+TokFrame <- dfm(TokNews) #een dataframe maken 
+TokFrame
+TokTrim <- dfm_trim(TokFrame, min_docfreq = 0.001, max_docfreq = 0.01, docfreq_type = "prop") #  features trimmen: hoge sparsity, hoog aantal features zodat de LDA het meeste zin heeft
+TokTrim
+```
+
+```{r}
+TokFrameLDA <- 
+  LDA(convert(TokTrim, to = "topicmodels"), k=10) 
+get_terms(TokFrameLDA, 5) #zo kies ik een topic. Met deze code (runtime +- 40 minuten) komen verschillende interessante onderwerpen naar boven die met elkaar te maken hebben
+```
+
