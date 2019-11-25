@@ -1,6 +1,11 @@
 library(quanteda)     #Voor tokensiatie, corpora, etc.
 library(topicmodels)  #Voor de topicmodels
 
+#maken van de subset (deze versie is van september)
+corpus_subset(newspapers, Date <= as.Date("2017-10-1"))
+september <- corpus_subset(newspapers, Date <= as.Date("2017-10-1"))
+save(september, file = "september.rdata")
+
 september_corpus <- corpus(september)   #Corpus van de data van september (was miss al)
 tok <- tokens(september_corpus,         #tokeniseert door:
               remove_numbers = TRUE,        #nummers te verwijderen
