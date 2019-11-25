@@ -21,7 +21,7 @@ newthing <- ntoken(migr_tok) #telt het aantal voorkomens van één van de woorde
 vluchtelingen_bool <- newthing > 0L #als er meer dan 0 relevante woorden in voorkomen, is het een relevant artikel
                                     #in vluchtelingen_bool komt voor elk artikel te staan of dit het geval is
 
-sept_C <- september_corpus #slaat het corpus opnieuw voor het geval we het corpus per ongeluk slopen
+sept_C <- september_corpus #slaat het corpus opnieuw op voor het geval we het corpus per ongeluk slopen
 
 docvars(sept_C, "vluchtelingen") <- vluchtelingen_bool #maakt een nieuwe kolom waarin staat of het artikel relevant
                                                        #is voor het onderwerp 'vluchtelingen'
