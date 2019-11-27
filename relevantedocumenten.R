@@ -14,6 +14,7 @@ tok <- tokens(september_corpus,         #tokeniseert door:
               remove_punct = TRUE) %>%      #leestekens te verwijderen
   tokens_tolower() %>%                      #alle letters kleine letters te maken
   tokens_remove(stopwords::stopwords(language = "nl")) #en stopwoorden te verwijderen
+  tokens_remove(stopwords::stopwords(language = "en")) #bij de vorige fase zag ik regelmatig nog 'the' voorkomen in topicmodels: het is dus handig die er zo uit te halen.
 
 #Woordenlijst thema migratie
 migr_tok <- tokens_select(tok,c("vluchte*","rohingya","asiel*","migr*","opvang","azc","integratie","grens"), selection = "keep", padding = FALSE)
