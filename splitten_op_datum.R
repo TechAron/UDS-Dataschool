@@ -1,4 +1,3 @@
-#Commentaar op de code volgt nog
 library(quanteda)
 
 taug_klimaat <- corpus_subset(klimaat_volledig, Date < as.Date("2018-9-1")) #maakt een subset van het hele corpus t/m maand x
