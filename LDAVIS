@@ -1,0 +1,33 @@
+```{r}
+TokFrameLDA <- 
+  LDA(convert(TokTrim, to = "topicmodels"), k=10) 
+get_terms(TokFrameLDA, 10) #zo kies ik een topic. Met deze code (runtime +- 40 minuten) komen verschillende interessante onderwerpen naar boven die met elkaar te maken hebben
+```
+
+```{r}
+library(LDAvis)
+library(tm)
+```
+```{r}
+topicmodels_json_ldavis <- function(fitted, dfm){
+    # Find required quantities
+    phi <- as.matrix(posterior(fitted)$terms)  
+    theta <- as.matrix(posterior(fitted)$topics)
+    
+    vocab <- colnames(phi)
+    
+    doc_length <- ntoken(dfm)
+
+    # Convert to json
+    json_lda <- LDAvis::createJSON(phi = phi, theta = theta,
+                            vocab = vocab,
+                            doc.length = doc_length,
+                            term.frequency = colSums(dfm))
+
+    return(json_lda)
+}
+```
+
+```{r}
+serVis(LDAVISUALISATIE, out.dir = tempfile(), open.browser = TRUE, as.gist=FALSE)
+```
