@@ -14,7 +14,7 @@ tok <- tokens(klimaat_corpus,         #tokeniseert door:
   tokens_remove(stopwords::stopwords(language = "nl")) #en stopwoorden te verwijderen
 
 #Woordenlijst thema klimaat
-klim_tok <- tokens_select(tok,c("klimaat*", "co2_uitstoot", "zeespiegel", "extinction_rebellion", "mileu", "greta_thunberg", "zweedse_activist*", "vliegschaamte", "greenpeace", "wnf", "stikstofcrissis", "smelt*_ijs", "opwarm*", "urgenda", "marjan_minnesma", "kernenergie", "kolencentrales"), selection = "keep", padding = FALSE)
+klim_tok <- tokens_select(tok,c("klimaatverandering", "co2_uitstoot","global_warming","opwarming_van_de_aarde","zeespiegel","extinction_rebellion","milieuacti*","klimaatacti*","vliegschaamte","stikstofcrisis","klimaatplan","urgenda","marjan_minnesma","kernenergie","kolencentrales"), selection = "keep", padding = FALSE)
 newthing <- ntoken(klim_tok) #telt het aantal voorkomens van één van de woorden op de woordenlijst per artikel
 klimaat_bool <- newthing > 0L #als er meer dan 0 relevante woorden in voorkomen, is het een relevant artikel
 #in klimaat_bool komt voor elk artikel te staan of dit het geval is
