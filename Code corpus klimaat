@@ -1,4 +1,3 @@
-
 library(quanteda)     #Voor tokensiatie, corpora, etc.
 library(topicmodels)  #Voor de topicmodels
 
@@ -14,7 +13,23 @@ tok <- tokens(klimaat_corpus,         #tokeniseert door:
   tokens_remove(stopwords::stopwords(language = "nl")) #en stopwoorden te verwijderen
 
 #Woordenlijst thema klimaat
-klim_tok <- tokens_select(tok,c("klimaatverandering", "co2_uitstoot","global_warming","opwarming_van_de_aarde","zeespiegel","extinction_rebellion","milieuacti*","klimaatacti*","vliegschaamte","stikstofcrisis","klimaatplan","urgenda","marjan_minnesma","kernenergie","kolencentrales"), selection = "keep", padding = FALSE)
+klim_tok <- tokens_select(tok,c("klimaatverandering", 
+                                "uitstoot",
+                                "(?:global\W+(?:\w+\W+){0,1}?warming)",
+                                "(?:opwarm.*\W+(?:\w+\W+){0,10}?aarde)",
+                                "(?:aarde\W+(?:\w+\W+){0,10}?opwarm.*)",
+                                "zeespiegel",
+                                "(?:extinction\W+(?:\w+\W+){0,1}?rebellion)",
+                                "(milieu|klimaat)acti.*",
+                                "vliegschaamte",
+                                "stikstofcrisis",
+                                "klimaatplan",
+                                "urgenda",
+                                "minnesma",
+                                "kernenergie",
+                                "kolencentrales",
+                                "klimaat(extremis.*|gekkie.)"),
+                          selection = "keep", padding = FALSE, valuetype = "regex")
 newthing <- ntoken(klim_tok) #telt het aantal voorkomens van één van de woorden op de woordenlijst per artikel
 klimaat_bool <- newthing > 0L #als er meer dan 0 relevante woorden in voorkomen, is het een relevant artikel
 #in klimaat_bool komt voor elk artikel te staan of dit het geval is
@@ -24,6 +39,6 @@ klim_C <- klimaat_corpus #slaat het corpus opnieuw op voor het geval we het corp
 docvars(klim_C, "klimaat") <- klimaat_bool #maakt een nieuwe kolom waarin staat of het artikel relevant
 #is voor het onderwerp 'klimaat'
 
-klimaat_volledig <- corpus_subset(klim_C, klimaat == TRUE) #maakt een nieuw corpus 'klimaat_volledig' met alle relevante artikelen
+klimaat_volledig <- corpus_subset(klim_C, klimaat == TRUE) #maakt een nieuw corpus 'klimaat_volledig' met alle relevante artikelen#
 
-texts (corpus_sample(klimaat_volledig, size = 10))
+#texts (corpus_sample(klimaat_volledig, size = 10))
