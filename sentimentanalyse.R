@@ -15,4 +15,4 @@ posnegtbl$document <- NULL #zo verwijder je de kolom 'document', zodat die in de
 
 docvars(aug_klimaat, c("Positieve woorden","Negatieve woorden","Subjectieve woorden")) <- posnegtbl #zo worden rechts in de docvars de resultaten van boven bijgeschreven. voor de <- kunnen nog extra kolommen bijgeschreven worden, zolang die ook in posneg staan.
 
-write.csv2(aug_klimaat$documents, file = "sept_EUposnegsubj.csv") #opslaan
+write.csv2(aug_klimaat$documents, file = "aug_klimaatpns.csv") #opslaan
