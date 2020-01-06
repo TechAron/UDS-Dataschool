@@ -15,9 +15,9 @@ tok <- tokens(vluchtelingen_corpus,         #tokeniseert door:
   tokens_remove(stopwords::stopwords(language = "nl")) #en stopwoorden te verwijderen
 
 #Woordenlijst thema migratie
-migr_tok <- tokens_select(tok,c("vluchte*","rohingya","asiel*","migr*","ter_apel","azc","calais","grens*", "jungle_van_calais"), selection = "keep", padding = FALSE)
+migr_tok <- tokens_select(tok,c("vluchte*","asiel*","migr*","ter_apel","azc", "jungle_van_calais"), selection = "keep", padding = FALSE)
 newthing <- ntoken(migr_tok) #telt het aantal voorkomens van één van de woorden op de woordenlijst per artikel
-vluchtelingen_bool <- newthing > 0L #als er meer dan 0 relevante woorden in voorkomen, is het een relevant artikel
+vluchtelingen_bool <- newthing > 1L #als er meer dan 1 relevante woorden in voorkomen, is het een relevant artikel
 #in vluchtelingen_bool komt voor elk artikel te staan of dit het geval is
 
 vlucht_C <- vluchtelingen_corpus #slaat het corpus opnieuw op voor het geval we het corpus per ongeluk slopen
