@@ -82,7 +82,8 @@ rated_words <- c(
 #  else{
 #    score <- NULL
 #  }
-#}
+#} 
+#dit heb ik (Aron) gedaan met dezelfde formule als die bij de sentimentsanalyse. Op deze manier kunnen we hopelijk ook een gewogen cijfer krijgen (dat is volgens mij ook het geval). 
 
 df_textscores <- data.frame(df_sent["document"],score,rated_words)
 write.csv2(df_textscores,file="df_subscores_new.csv")
