@@ -5,7 +5,7 @@
 #de totale score maar door het aantal beoordeelde woorden gedeeld wordt.
 
 #Laad hier het bestand lexicon_sentiment_nl_v2.csv in, staat op de drive (Tutorials > R > Sentiment analysis)
-lex_sentiment_v2 <- read.csv(file="C:/Users/bdien/OneDrive/Documenten/Taalwetenschap/UDS/Sentimentanalyse/lexicon_sentiment_nl_v2.csv", header=TRUE, sep=";", stringsAsFactors = FALSE, fileEncoding="UTF-8-BOM")
+lex_sentiment_v2 <- read.csv(file="C:/Users/.../lexicon_sentiment_nl_v2.csv", header=TRUE, sep=";", stringsAsFactors = FALSE, fileEncoding="UTF-8-BOM")
 
 pos10_sent_nl <- subset(lex_sentiment_v2$word, lex_sentiment_v2$polarity == "1")
 pos09_sent_nl <- subset(lex_sentiment_v2$word, lex_sentiment_v2$polarity == "0,9")
