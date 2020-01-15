@@ -1,0 +1,12 @@
+EU3 <- read.csv2(file = "FrequentieEU3.csv") #Vergeet niet om je excel bestand te converteren naar csv(2) 
+EU3split <- split(EU3, EU3$Newspaper) #split elke losse krant
+EU3stat <- as.numeric(as.character(EU3split$De_Telegraaf$Sentiment)) #het creëren van een vector (mean en sd werken niet met een dataframe)
+gem <- mean(EU3stat) # (gemiddelde berekenen)
+dev <- sd(EU3stat) # (standaarddeviatie berekenen)
+error <- qt(0.975, df = length(EU3stat)-1)*dev/sqrt(length(EU3stat)) #berekenen van de error kans. Dit klopt, maar kan alleen bij n = >30, want daaronder kan het zijn dat de data niet normaal verdeeld is. Bij alle n>30 kan daar (blijkbaar) automatisch vanuitgegaan worden
+minimum <- gem-error #onderste stuk van het gemiddelde 
+maximum <- gem+error #bovenste stuk van het gemiddelde 
+EU3split$De_Telegraaf$Sentiment["minimum"] <- minimum #toevoegen aan dfm
+EU3split$De_Telegraaf$Sentiment["maximum"] <- maximum #toevoegen aan dfm 
+
+EU3compleet <- unsplit(EU3split)
