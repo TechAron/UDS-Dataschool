@@ -1,0 +1,3 @@
+textplot_wordcloud(dfmPol6, max_size = 1, min_count = 8, random_order = FALSE,
+                   rotation = .25) #dit is code voor een wordcloud, maat kun je varieren en dan moet je het juiste object of zelfs specifieke kolom hierbij gebruiken
+                   
