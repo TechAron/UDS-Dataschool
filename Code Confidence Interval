@@ -1,12 +1,36 @@
-EU3 <- read.csv2(file = "FrequentieEU3.csv") #Vergeet niet om je excel bestand te converteren naar csv(2) 
-EU3split <- split(EU3, EU3$Newspaper) #split elke losse krant
-EU3stat <- as.numeric(as.character(EU3split$De_Telegraaf$Sentiment)) #het creëren van een vector (mean en sd werken niet met een dataframe)
-gem <- mean(EU3stat) # (gemiddelde berekenen)
-dev <- sd(EU3stat) # (standaarddeviatie berekenen)
-error <- qt(0.975, df = length(EU3stat)-1)*dev/sqrt(length(EU3stat)) #berekenen van de error kans. Dit klopt, maar kan alleen bij n = >30, want daaronder kan het zijn dat de data niet normaal verdeeld is. Bij alle n>30 kan daar (blijkbaar) automatisch vanuitgegaan worden
-minimum <- gem-error #onderste stuk van het gemiddelde 
-maximum <- gem+error #bovenste stuk van het gemiddelde 
-EU3split$De_Telegraaf$Sentiment["minimum"] <- minimum #toevoegen aan dfm
-EU3split$De_Telegraaf$Sentiment["maximum"] <- maximum #toevoegen aan dfm 
+EU3 <- read.csv2(file = "FrequentieEU3.csv") #Vergeet niet om je excel bestand te converteren naar csv(2) # deze code moet 1 keer uitgevoerd worden per onderwerp
+confinter <- function(df) { #een functie maken voor de confidence interval 
+  EU3stat <- as.numeric(as.character(df$sentiment)) #de sentimentscore numeriek maken 
+  gem <- mean (EU3stat) #gemiddelde berekenen
+  dev <- sd(EU3stat) #standaarddeviatie berekenen
+  error <- qnorm(0.975)*dev/sqrt(nrow(df)) #foutmarge berekenen
+  minimum <- gem-error #minimale score voor confidence interval 
+  maximum <- gem+error #maximale score voor confidence interval 
+  df["minimum"] <- minimum #toevoegen aan df
+  df["maximum"] <- maximum #toevoegen aan df 
+  return()
+  }
 
-EU3compleet <- unsplit(EU3split)
+subsetmaker <- function(df) { #ik zag zelf niet hoe dit simpeler kon: zo hoef je in ieder geval niet iedere keer de code te veranderen en kan het gewoon in 1 keer per subset/onderwerp
+  AD <- subset(df, Newspaper == "AD/Algemeen Dagblad")
+  DT <- subset(df, Newspaper == "De Telegraaf") 
+  DV <- subset(df, Newspaper == "de Volkskrant") 
+  FD <- subset(df, Newspaper == "Het Financieele Dagblad") 
+  ND <- subset(df, Newspaper == "Nederlands Dagblad")
+  NRC <- subset(df, Newspaper == "NRC Handelsblad")
+  NRCN <- subset(df, Newspaper == "NRC.NEXT")
+  RD <- subset(df, Newspaper == "Reformatorisch Dagblad") 
+  Tr <- subset(df, Newspaper == "Trouw") 
+  AD <- confinter(AD)
+  DT <- confinter(DT) 
+  DV <- confinter(DV) 
+  FD <- confinter(FD) 
+  ND <- confinter(ND) 
+  NRC <- confinter(NRC) 
+  NRCN <- confinter(NRCN)
+  RD <- confinter(RD)
+  Tr <- confinter(Tr) 
+  rbind(AD, DT, DV, FD, ND, NRC, NRCN, RD, Tr)
+}
+EU3compleet <- subsetmaker(EU3) #niet vergeten een nieuw object te maken, anders doet de code het niet
+write.csv2(EU3compleet, file = "FrequentieEU4.csv") #en opslaan
