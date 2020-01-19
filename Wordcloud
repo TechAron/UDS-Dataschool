@@ -1,3 +1,15 @@
-textplot_wordcloud(dfmPol6, max_size = 1, min_count = 8, random_order = FALSE,
-                   rotation = .25) #dit is code voor een wordcloud, maat kun je varieren en dan moet je het juiste object of zelfs specifieke kolom hierbij gebruiken
+Newscorpus <- corpus(subset_klimaat)
+
+tok <- tokens(Newscorpus,         #tokeniseert door:
+              remove_numbers = TRUE,        #nummers te verwijderen
+              remove_url = TRUE,            #urls te verwijderen
+              remove_symbols = TRUE,        #symbolen(?) te verwijderen
+              remove_punct = TRUE) %>%      #leestekens te verwijderen
+  tokens_tolower() %>%                      #alle letters kleine letters te maken
+  tokens_remove(stopwords::stopwords(language = "nl")) 
+
+tokdfm <- dfm(tok)
+textplot_wordcloud(tokdfm, max_size = 1, min_count = 8, random_order = FALSE,
+                   rotation = .25)
+ #dit is code voor een wordcloud, maat kun je varieren en dan moet je het juiste object of zelfs specifieke kolom hierbij gebruiken
                    
