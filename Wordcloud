@@ -9,7 +9,7 @@ tok <- tokens(Newscorpus,         #tokeniseert door:
   tokens_remove(stopwords::stopwords(language = "nl")) 
 
 tokdfm <- dfm(tok)
-textplot_wordcloud(tokdfm, max_size = 1, min_count = 8, random_order = FALSE,
-                   rotation = .25)
+
+textplot_wordcloud(dtm, min_size = 0.25, max_size = 6, min_count = 3, max_words = 250, color = "red", font = NULL, adjust = 0, rotation = 0.25, labelcolor = "gray")
  #dit is code voor een wordcloud, maat kun je varieren en dan moet je het juiste object of zelfs specifieke kolom hierbij gebruiken
                    
